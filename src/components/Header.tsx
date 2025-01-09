@@ -1,13 +1,13 @@
 "use client"
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-import amazonLogo from "../../public/amazon-logo.png"
+import amazonLogo from "../../public/amazon-logo-2.webp";
 import { BiCart } from "react-icons/bi";
 import { CgSearch } from "react-icons/cg";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-// import { useAppSelector } from '@/lib/supabase/hooks/redux';
-// import { getCart } from '@/redux/cartSlice';
+import { useAppSelector } from '@/lib/hooks/redux';
+import { getCart } from '@/redux/cartSlice';
 // import { supabase } from '@/lib/supabase/products';
 
 const itemList = [
@@ -30,7 +30,7 @@ const Header = () => {
     const router = useRouter();
 
 
-    // const cart = useAppSelector(getCart);
+    const cart = useAppSelector(getCart);
 
     const searchHandler = () => {
         router.push(`/search/${query}`);
@@ -49,12 +49,17 @@ const Header = () => {
             <div className='bg-[#131921] text-white py-1'>
                 <div className='flex items-center justify-between w-[90%] mx-auto'>
                     <Link href={'/'} className='w-[10%]'>
-                        <Image src={amazonLogo} alt={"logo"} width={150} height={150} />
+                        <Image src={amazonLogo} alt={"logo"} width={150} height={150} className='cursor-pointer'/>
                     </Link>
                     <div className='flex items-center w-[60%]'>
                         <input 
                         value={query} 
                         onChange={(e)=>setQuery(e.target.value)}
+                        onKeyDown={(e)=>{
+                            if(e.key === "Enter"){
+                                searchHandler();
+                            } 
+                        }}
                         type="text" 
                         className='w-full p-2 rounded-l-md outline-none text-black' placeholder='Search Amazon.in' />
                         <div 
@@ -75,7 +80,7 @@ const Header = () => {
                             <h1 className='font-medium text-sm'>& Orders</h1>
                         </div>
                         <Link href={"/cart"}  className='cursor-pointer'>
-                            {/* <p className='relative top-3 left-5'>{cart.length}</p> */}
+                            <p className='relative top-3 left-5'>{cart.length}</p>
                             <div className='flex'>
                                 <div>
                                     <BiCart size={"40px"} />
@@ -86,6 +91,7 @@ const Header = () => {
                     </div>
                 </div>
             </div>
+
             <div className='bg-[#232F3E] w-full text-white p-2  flex justify-between items-center'>
                 <div>
                     {

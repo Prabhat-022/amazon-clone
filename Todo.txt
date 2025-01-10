@@ -1,0 +1,9 @@
+//this project is amazon clone fully 
+//go through by patelmernstack 
+
+//Task
+* you need to desine the home page 
+* Add login Functional in this projects
+* show username in header 
+* Add profile page 
+* 

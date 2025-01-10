@@ -6,6 +6,10 @@ export async function connectDB() {
 
         const connection = mongoose.connection;
 
+        connection.on("connected", () => {
+            console.log("connected to db");
+        });
+
         connection.on("error", (error) => {
             console.error("Error connecting to MongoDB:", error);
         });
@@ -16,7 +20,7 @@ export async function connectDB() {
 
         console.log("Connected to MongoDB");
 
-    }catch(error){
+    } catch (error) {
         console.log("something went wrong in connecting to db", error);
     }
 

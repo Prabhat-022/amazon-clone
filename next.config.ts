@@ -7,9 +7,13 @@ const nextConfig = {
               hostname:'fakestoreapi.com'
           },
           {
-              protocol:'https',
-              hostname:'images-eu.ssl-images-amazon.com'
-          }
+            protocol:'https',
+            hostname:'images-eu.ssl-images-amazon.com'
+        },
+        {
+            protocol:'https',
+            hostname:"picsum.photos"
+        }
       ]
   }
 };

@@ -1,12 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./index";
 
 interface CartSate {
     cart: any,
+    user:any,
+    login:boolean
 }
 
 const initialState:CartSate = {
-    cart:[]
+    cart:[],
+    user:"",
+    login:false
 }
 
 const cartSlice = createSlice({
@@ -14,6 +18,7 @@ const cartSlice = createSlice({
     initialState,
     reducers:{
         // multiple actions
+
         addToCart:(state, action)=>{
             
             const isPresent = state.cart.find((item:any)=>{
@@ -46,10 +51,17 @@ const cartSlice = createSlice({
         },
         clearAllCart:(state)=>{
             state.cart = []
+        },
+        setUserData:(state, action)=>{
+            state.user = action.payload;
+        },
+        setLogin:(state, action)=>{
+            state.login = action.payload;
         }
+
     }
 });
-export const {addToCart, removeFromTheCart, incrementQuantity, decrementQuantity, clearAllCart} = cartSlice.actions;
+export const {addToCart, removeFromTheCart, incrementQuantity, decrementQuantity, clearAllCart,setUserData,setLogin} = cartSlice.actions;
 
 export const getCart = (state: RootState) => state.cart.cart
 

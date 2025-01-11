@@ -1,34 +1,57 @@
-
 "use client"
-import React from 'react'
-import Banner from '../components/Banner'
-import Products from '../components/Products'
-import { ProductProps } from '../../type'
-import { useDispatch } from 'react-redux'
-import { resetCart } from '@/store/nextSlice'
 
-interface Props {
-  productData: ProductProps
+import CategoryWiseProduct from "@/components/shared/CategoryWiseProduct";
+import { useSuperbase } from "@/lib/hooks/useSuperbase";
+import Image from "next/image";
+import { useEffect } from "react";
+
+interface props{
+  title:string
 }
 
-const HomePage = () => {
-  const dispatch = useDispatch()
-  React.useEffect(() => {
-    dispatch(resetCart())
-  }, [dispatch])
-  
+const Home = () => {
+  const {   mensClothing,
+    getMensClothing,
+    womensClothing,
+    getWomensClothing
+     } = useSuperbase();
+
+  useEffect(() => {
+    getMensClothing();
+    getWomensClothing();
+  }, [])
+
+
   return (
-    <main>
-      <div className="max-w-screen-2xl mx-auto">
-        <Banner />
-        <div className="relative md:-mt-20 lgl:-mt-32 xl:-mt-60 z-20 mb-10">
-          <Products />
-        </div>
+    <div>
+      <Image
+      style={{
+        maskImage:'linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0))'}}
+      src={"https://images-eu.ssl-images-amazon.com/images/G/31/img24/AmazonPay/Travel/PC_Hero_BAU/IF_PC_Hero_3000x1200._CB583399235_.jpg"} width={10000} height={1000} alt="banner" />
+
+      <div className='w-[90%] mx-auto grid grid-cols-4 gap-2 relative -top-64'>
+        {
+          mensClothing?.map((product: any, ) => {
+            return (
+              <div key={product.id}>
+                <CategoryWiseProduct product={product} title="Men's Clothing"/>
+              </div>
+            )
+          })
+        }
+        {
+          womensClothing?.map((product: any) => {
+            return (
+              <div key={product.id}>
+                <CategoryWiseProduct product={product} title="Women's Clothing" />
+              </div>
+            )
+          })
+        }
       </div>
 
-      
-    </main>
+    </div>
   )
 }
 
-export default HomePage
+export default Home

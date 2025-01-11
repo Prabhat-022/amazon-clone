@@ -39,11 +39,13 @@ export async function POST(request: NextRequest) {
     });
 
     const savedUser = await newUser.save();
+    console.log('savedUser', savedUser);
 
-    console.log(savedUser);
 
     return NextResponse.json({
       message: "User registered successfully",
+      success: true,
+      savedUser,
     });
   } catch (error) {
     console.log("singup: ", error);

@@ -5,6 +5,8 @@ export const useSuperbase = () => {
   const [product, setProduct] = useState<any>([]);
   const [filterData, setFilterData] = useState<any>([]);
   const [singleProduct, setSingleProduct] = useState<any>([]);
+  const [mensClothing, setMensProduct] = useState<any>([]);
+  const [womensClothing, setWomensProduct] = useState<any>([]);
 
   //get data from supabase
   const getDataFromSupabase = async () => {
@@ -37,10 +39,7 @@ export const useSuperbase = () => {
   };
 
   const getSingleProduct = async (id: number) => {
-    const { data, error } = await supabase
-      .from("product")
-      .select("*")
-      .eq("id", id);
+    const { data, error } = await supabase.from("product").select("*").eq("id", id);
     if (data) {
       setSingleProduct(data);
     }
@@ -49,12 +48,38 @@ export const useSuperbase = () => {
     }
   };
 
+  const getMensClothing = async () => {
+    const {data, error} = await supabase.from('product').select('*').ilike('category', `men's clothing`);
+    if(data){
+        setMensProduct(data);
+    }
+    if(error){
+        console.log(error);
+        
+    }
+}
+const getWomensClothing = async () => {
+    const {data, error} = await supabase.from('product').select('*').ilike('category', `women's clothing`);
+    if(data){
+        setWomensProduct(data);
+    }
+    if(error){
+        console.log(error);
+        
+    }
+}
+
+
   return {
     product,
     getDataFromSupabase,
     filterData,
     getFilteredData,
     singleProduct,
-    getSingleProduct
+    getSingleProduct,
+    mensClothing,
+    getMensClothing,
+    womensClothing,
+    getWomensClothing
   };
 };

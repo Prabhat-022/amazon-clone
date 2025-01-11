@@ -4,6 +4,8 @@ import React from 'react'
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { setLogin } from '@/redux/cartSlice';
+import { useAppDispatch } from '@/lib/hooks/redux';
 
 const Loginpage = () => {
     const router = useRouter();
@@ -13,6 +15,7 @@ const Loginpage = () => {
     });
     const [buttonDisabled, setButtonDisabled] = React.useState(false)
     const [loading, setLoading] = React.useState(false)
+    const dispatch = useAppDispatch();
 
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -22,6 +25,7 @@ const Loginpage = () => {
             setLoading(true)
             const response = await axios.post('/api/login', user)
             console.log(response.data)
+            dispatch(setLogin(true));
             router.push('/login')
             toast.success('Login successful', {
                 position: 'bottom-center',

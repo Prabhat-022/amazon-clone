@@ -1,12 +1,15 @@
 'use client'
 import axios from 'axios';
-import React from 'react'
+import React from 'react';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useAppDispatch } from '@/lib/hooks/redux';
+import { setUserData } from '@/redux/cartSlice';
 
 const Singuppage = () => {
     const router = useRouter();
+    const dispatch = useAppDispatch();
     const [user, setUser] = React.useState({
         username: '',
         email: '',
@@ -23,7 +26,8 @@ const Singuppage = () => {
             setLoading(true)
             const response = await axios.post('/api/singup', user 
             )
-            console.log(response.data)
+            console.log(response.data.savedUser)
+            dispatch(setUserData(response.data.savedUser));
             router.push('/login')
             toast.success('singup successful', {
                 position: 'bottom-center',
